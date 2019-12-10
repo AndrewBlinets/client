@@ -153,21 +153,21 @@ private static final String URL_DB = "http://192.168.1.125:8080/dao/";
         }
     }
 
-    @CrossOrigin
-    @GetMapping(value = "/contact")
-    @ResponseBody
-    public ResponseEntity getContact() {
-        String url = URL_DB + "contact";
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
-        try {
-            final ParameterizedTypeReference<CustomPage<Contact>> responseType =
-                    new ParameterizedTypeReference<CustomPage<Contact>>() {
-                    };
-            return restTemplate.exchange(builder.toUriString(), HttpMethod.GET, null, responseType);
-        } catch (org.springframework.web.client.HttpClientErrorException exception) {
-            return new ResponseEntity(HttpStatus.valueOf(exception.getStatusCode().value()));
-        }
-    }
+//    @CrossOrigin
+//    @GetMapping(value = "/contact")
+//    @ResponseBody
+//    public ResponseEntity getContact() {
+//        String url = URL_DB + "contact";
+//        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
+//        try {
+//            final ParameterizedTypeReference<CustomPage<Contact>> responseType =
+//                    new ParameterizedTypeReference<CustomPage<Contact>>() {
+//                    };
+//            return restTemplate.exchange(builder.toUriString(), HttpMethod.GET, null, responseType);
+//        } catch (org.springframework.web.client.HttpClientErrorException exception) {
+//            return new ResponseEntity(HttpStatus.valueOf(exception.getStatusCode().value()));
+//        }
+//    }
 
     @CrossOrigin
     @GetMapping(value = "/partners")
