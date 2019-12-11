@@ -4,6 +4,7 @@ import by.ipps.client.resttemplate.ContactRestTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/contact")
 public class ContactController {
@@ -14,10 +15,9 @@ public class ContactController {
         this.contactRestTemplate = contactRestTemplate;
     }
 
-    @CrossOrigin
     @GetMapping
     @ResponseBody
-    public ResponseEntity getAllContact(){
+    public ResponseEntity<Object> getAllContact(){
         return contactRestTemplate.getActualInfo();
     }
 

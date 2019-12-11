@@ -3,12 +3,12 @@ package by.ipps.client.resttemplate.base;
 import by.ipps.client.custom.CustomPage;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 public interface BaseEntityRestTemplate<T> {
 
-    ResponseEntity<T> findById(Long id, String url);
+    ResponseEntity<T> findById(Long id, String url, String language, String section, String department);
     ResponseEntity<CustomPage<T>> findPagingRecords(long page, int size, String sort, String language,
-                                                    String url);
-    ResponseEntity<T> create(T entity, String url);
-    ResponseEntity<T> update(T entity, String url);
-    ResponseEntity<Boolean> delete(long byId, String url);
+                                                    String url, String section, String department);
+    ResponseEntity<List<T>> findAll(String language, String url, String section, String department);
 }

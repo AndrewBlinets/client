@@ -1,74 +1,94 @@
 package by.ipps.client.resttemplate.base;
 
 import by.ipps.client.custom.CustomPage;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.lang.reflect.ParameterizedType;
-import java.util.Collections;
+import java.util.List;
 
+@Log4j2
 public abstract class AbstractBaseEntityRestTemplate<E> implements BaseEntityRestTemplate<E> {
 
-    protected static final String URL_SERVER = "http://localhost:8082/dao/";
-
-    private Class<E> entityClass;
+    protected static final String URL_SERVER = "http://192.168.1.125:8080/dao/";
+    private static final String LANGUAGE = "language";
+    private static final String SECTION = "section";
+    private static final String DEPARTAMENT = "department";
 
     @Autowired
     protected RestTemplate restTemplate;
 
-    @SuppressWarnings("unchecked")
-    public AbstractBaseEntityRestTemplate() {
-        this.entityClass = (Class<E>) ((ParameterizedType) getClass().getGenericSuperclass())
-                .getActualTypeArguments()[0];
-    }
-
     @Override
-    public ResponseEntity<E> findById(Long id, String url) {
-        return restTemplate.getForEntity( URL_SERVER + url + "/" + id,
-                entityClass, new ParameterizedTypeReference<E>() {} );
+    public ResponseEntity<E> findById(Long id, String url, String language, String section, String department) {
+        try {
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL_SERVER + url + "/" + id);
+            setSectionAndDeportamentAndLanguage(language, section, department, builder);
+            return restTemplate.exchange(builder.toUriString(), HttpMethod.GET, null,
+                    new ParameterizedTypeReference<E>() {
+                    });
+        } catch (org.springframework.web.client.HttpClientErrorException exception) {
+            log.info("findByid");
+            log.info(url + "/" + id);
+            log.info(language + ", " + section + ", " + department);
+            log.error(exception.getStatusCode() + " " + exception.getStatusText());
+            log.error(exception.getStackTrace());
+            return new ResponseEntity<>(HttpStatus.valueOf(exception.getStatusCode().value()));
+        }
     }
 
     @Override
     public ResponseEntity<CustomPage<E>> findPagingRecords(long page, int size, String sort, String language,
-                                                           String url) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL_SERVER + url)
-                .queryParam("page", String.valueOf(page))
-                .queryParam("size", String.valueOf(size))
-                .queryParam("sort", sort)
-                .queryParam("language", language);
-        final ParameterizedTypeReference<CustomPage<E>> responseType =
-                new ParameterizedTypeReference<CustomPage<E>>() {
-                };
-        return restTemplate.exchange(builder.toUriString(), HttpMethod.GET, null, responseType);
+                                                           String url, String section, String department) {
+        try {
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL_SERVER + url)
+                    .queryParam("page", String.valueOf(page))
+                    .queryParam("size", String.valueOf(size))
+                    .queryParam("sort", sort);
+            setSectionAndDeportamentAndLanguage(language, section, department, builder);
+            return restTemplate.exchange(builder.toUriString(), HttpMethod.GET, null,
+                    new ParameterizedTypeReference<CustomPage<E>>() {
+                    });
+        } catch (org.springframework.web.client.HttpClientErrorException exception) {
+            log.info("findAlByPage");
+            log.info(url);
+            log.info(language + ", " + section + ", " + department);
+            log.error(exception.getStatusCode() + " " + exception.getStatusText());
+            log.error(exception.getStackTrace());
+            return new ResponseEntity<>(HttpStatus.valueOf(exception.getStatusCode().value()));
+        }
     }
 
     @Override
-    public ResponseEntity<E> create(E entity, String url) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL_SERVER + url);
-        HttpHeaders requestHeaders = new HttpHeaders();
-        requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-        requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        HttpEntity<E> requestEntity = new HttpEntity<>(entity, requestHeaders);
-        return restTemplate.exchange(builder.toUriString(), HttpMethod.POST,  requestEntity, entityClass);
+    public ResponseEntity<List<E>> findAll(String language, String url, String section, String department) {
+        try {
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL_SERVER + url + "/all");
+            setSectionAndDeportamentAndLanguage(language, section, department, builder);
+            return restTemplate.exchange(builder.toUriString(), HttpMethod.GET, null,
+                    new ParameterizedTypeReference<List<E>>() {
+                    });
+        } catch (org.springframework.web.client.HttpClientErrorException exception) {
+            log.info("findAll");
+            log.info(url);
+            log.info(language + ", " + section + ", " + department);
+            log.error(exception.getStatusCode() + " " + exception.getStatusText());
+            log.error(exception.getStackTrace());
+            return new ResponseEntity<>(HttpStatus.valueOf(exception.getStatusCode().value()));
+        }
     }
 
-    @Override
-    public ResponseEntity<E> update(E entity, String url) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL_SERVER + url);
-        HttpHeaders requestHeaders = new HttpHeaders();
-        requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-        requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        HttpEntity<E> requestEntity = new HttpEntity<>(entity, requestHeaders);
-        return restTemplate.exchange(builder.toUriString(), HttpMethod.PUT, requestEntity, entityClass);
-    }
-
-    @Override
-    public ResponseEntity<Boolean> delete(long byId, String url) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL_SERVER + url + "/" + byId);
-        return restTemplate.exchange(builder.toUriString(), HttpMethod.DELETE, null, Boolean.TYPE);
+    private void setSectionAndDeportamentAndLanguage(String language, String section, String department,
+                                                     UriComponentsBuilder builder) {
+        if (language != null)
+            builder.queryParam(LANGUAGE, language);
+        if (section != null)
+            builder.queryParam(SECTION, section);
+        if (department != null)
+            builder.queryParam(DEPARTAMENT, department);
     }
 
 }

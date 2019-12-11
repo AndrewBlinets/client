@@ -1,24 +1,26 @@
 package by.ipps.client.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class News extends BaseEntity implements Serializable {
-
     private Date datePublic;
-    private List<ProjectLanguageVersion> languageVersions;
     private long mainImage;
     private int countView;
-    private String status;
+    private String shortTitle;
+    private String entrySpeech;
+    private String title;
+    private String content;
 
 }
