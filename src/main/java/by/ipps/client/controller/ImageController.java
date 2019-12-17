@@ -25,4 +25,10 @@ public class ImageController {
         return imageRestTemplate.getById(id, response);
     }
 
+    @GetMapping(value = "/relize/{id}")
+    @ResponseBody
+    public ResponseEntity<HttpStatus> getByIdRelize(@PathVariable long id, HttpServletResponse response) {
+        return imageRestTemplate.getByIdRelize(id, response);
+    }
+
 }
