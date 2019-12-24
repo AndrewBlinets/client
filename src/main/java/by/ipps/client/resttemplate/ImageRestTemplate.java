@@ -31,12 +31,12 @@ public class ImageRestTemplate {
         try {
             ResponseEntity<FileManager> result = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, null,
                     FileManager.class);
-            response.setContentType(result.getBody().getFileMine());
+            response.setContentType(Objects.requireNonNull(result.getBody()).getFileMine());
             response.setHeader("Content-Disposition", "attachment; filename=" + result.getBody().getFileName());
             byte[] array = Files.readAllBytes(
                     Paths.get(result.getBody().getPath() + File.separator + result.getBody().getFileName()));
             response.getOutputStream().write(array);
-            return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (org.springframework.web.client.HttpClientErrorException exception) {
             log.info("getImageByID " + id);
             log.info(URL_SERVER);
@@ -55,13 +55,13 @@ public class ImageRestTemplate {
         try {
             ResponseEntity<FileManager> result = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, null,
                     FileManager.class);
-            response.setContentType(result.getBody().getFileMine());
+            response.setContentType(Objects.requireNonNull(result.getBody()).getFileMine());
             response.setHeader("Content-Disposition", "attachment; filename=" + result.getBody().getFileName());
             String nameFile = result.getBody().getFileName().split("\\.")[0] + "-resize." + result.getBody().getFileName().split("\\.")[1];
             byte[] array = Files.readAllBytes(
                     Paths.get(result.getBody().getPath() + File.separator + nameFile));
             response.getOutputStream().write(array);
-            return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (org.springframework.web.client.HttpClientErrorException exception) {
             log.info("getImageByID " + id);
             log.info(URL_SERVER);

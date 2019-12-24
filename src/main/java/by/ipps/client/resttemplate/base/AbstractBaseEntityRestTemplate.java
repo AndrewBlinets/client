@@ -15,7 +15,8 @@ import java.util.List;
 @Log4j2
 public abstract class AbstractBaseEntityRestTemplate<E> implements BaseEntityRestTemplate<E> {
 
-    protected static final String URL_SERVER = "http://192.168.1.125:8080/dao/";
+//    protected static final String URL_SERVER = "http://192.168.1.125:8080/dao/";// server
+    protected static final String URL_SERVER = "http://192.168.1.89:8082/dao/";// local work
     private static final String LANGUAGE = "language";
     private static final String SECTION = "section";
     private static final String DEPARTAMENT = "department";
