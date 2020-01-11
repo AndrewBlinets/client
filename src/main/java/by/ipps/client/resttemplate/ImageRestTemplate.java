@@ -18,7 +18,8 @@ import java.util.Objects;
 @Component
 @Slf4j
 public class ImageRestTemplate {
-    protected static final String URL_SERVER = "http://192.168.1.125:8080/dao/file";
+//    protected static final String URL_SERVER = "http://192.168.1.125:8080/dao/file";
+    protected static final String URL_SERVER = "http://localhost:8082/dao/file";
 
     protected final RestTemplate restTemplate;
 
