@@ -34,7 +34,7 @@ public class ImageRestTemplate {
             response.setContentType(Objects.requireNonNull(result.getBody()).getFileMine());
             response.setHeader("Content-Disposition", "attachment; filename=" + result.getBody().getFileName());
             byte[] array = Files.readAllBytes(
-                    Paths.get(result.getBody().getPath() + File.separator + result.getBody().getFileName()));
+                    Paths.get(result.getBody().getPath()));
             response.getOutputStream().write(array);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (org.springframework.web.client.HttpClientErrorException exception) {
@@ -59,7 +59,7 @@ public class ImageRestTemplate {
             response.setHeader("Content-Disposition", "attachment; filename=" + result.getBody().getFileName());
             String nameFile = result.getBody().getFileName().split("\\.")[0] + "-resize." + result.getBody().getFileName().split("\\.")[1];
             byte[] array = Files.readAllBytes(
-                    Paths.get(result.getBody().getPath() + File.separator + nameFile));
+                    Paths.get(result.getBody().getPath()));
             response.getOutputStream().write(array);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (org.springframework.web.client.HttpClientErrorException exception) {
