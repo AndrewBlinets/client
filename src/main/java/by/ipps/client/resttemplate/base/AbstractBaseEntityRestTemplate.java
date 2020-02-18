@@ -16,7 +16,8 @@ import java.util.List;
 public abstract class AbstractBaseEntityRestTemplate<E> implements BaseEntityRestTemplate<E> {
 
 //    protected static final String URL_SERVER = "http://192.168.1.125:8080/dao/";// server
-    protected static final String URL_SERVER = "http://192.168.1.89:8082/dao/";// local work
+//    protected static final String URL_SERVER = "http://192.168.1.89:8082/dao/";// local work
+    protected static final String URL_SERVER = "http://localhost:8082/dao/";// local home
     private static final String LANGUAGE = "language";
     private static final String SECTION = "section";
     private static final String DEPARTAMENT = "department";
@@ -66,6 +67,8 @@ public abstract class AbstractBaseEntityRestTemplate<E> implements BaseEntityRes
 
     @Override
     public ResponseEntity<List<E>> findAll(String language, String url, String section, String department) {
+        if(url.equals("/news/client"))
+            return new ResponseEntity<>(HttpStatus.HTTP_VERSION_NOT_SUPPORTED);
         try {
             UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(URL_SERVER + url + "/all");
             setSectionAndDeportamentAndLanguage(language, section, department, builder);
