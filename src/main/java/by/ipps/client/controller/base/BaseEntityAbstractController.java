@@ -13,10 +13,12 @@ public abstract class BaseEntityAbstractController<T extends BaseEntity, S exten
 
     protected final S baseEntityRestTemplate;
     protected String url;
+    protected String sortDefault;
 
-    protected BaseEntityAbstractController(S s, String url) {
+    protected BaseEntityAbstractController(S s, String url, String sortDefault) {
         this.baseEntityRestTemplate = s;
         this.url = url;
+        this.sortDefault = sortDefault;
     }
 
     @Override
@@ -28,7 +30,7 @@ public abstract class BaseEntityAbstractController<T extends BaseEntity, S exten
     @Override
     public ResponseEntity<CustomPage<T>> getAllByPage(int page, int size, String sort, String language, String section,
                                                       String department) {
-        return baseEntityRestTemplate.findPagingRecords(page, size, sort, language, url, section, department);
+        return baseEntityRestTemplate.findPagingRecords(page, size, sort == null ? this.sortDefault : sort, language, url, section, department);
     }
 
     @Override

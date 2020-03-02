@@ -16,7 +16,7 @@ public interface BaseEntityController<T extends BaseEntity> {
     @GetMapping(value = "/{id}")
     ResponseEntity<T> getById(@PathVariable Long id,
                               @RequestParam(value = "language", required = false) String language,
-                              @RequestParam(value = "section", required = false) String section,
+                              @RequestParam(value = "pageId", required = false) String section,
                               @RequestParam(value = "Department", required = false) String department);
 
     @GetMapping
@@ -25,13 +25,13 @@ public interface BaseEntityController<T extends BaseEntity> {
             @RequestParam(value = "size", required = false, defaultValue = "10") int size,
             @RequestParam(value = "sort", required = false) String sort,
             @RequestParam(value = "language", required = false) String language,
-            @RequestParam(value = "section", required = false) String section,
+            @RequestParam(value = "pageId", required = false) String section,
             @RequestParam(value = "Department", required = false) String department);
 
     @GetMapping(value = "/all")
     @ResponseBody
     ResponseEntity<List<T>> getAll(
             @RequestParam(value = "language", required = false) String language,
-            @RequestParam(value = "section", required = false) String section,
+            @RequestParam(value = "pageId", required = false) String section,
             @RequestParam(value = "Department", required = false) String department);
 }

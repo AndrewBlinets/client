@@ -15,6 +15,6 @@ public class VacancyController  extends BaseEntityAbstractController<Vacancy, Va
         implements BaseEntityController<Vacancy> {
 
     protected VacancyController(VacancyRestTemplate vacancyRestTemplate) {
-        super(vacancyRestTemplate, "/vacancy");
+        super(vacancyRestTemplate, "/vacancy", "id");
     }
 }
