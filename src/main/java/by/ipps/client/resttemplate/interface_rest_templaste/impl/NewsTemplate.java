@@ -7,4 +7,5 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class NewsTemplate extends AbstractBaseEntityRestTemplate<News> implements NewsRestTemplate {
+
 }

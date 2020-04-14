@@ -13,8 +13,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Component
 @Slf4j
 public class AboutCompanyRestTemplate {
-//    protected static final String URL_SERVER = "http://192.168.1.125:8080/dao/company";
-    protected static final String URL_SERVER = "http://localhost:8082/dao/company";
+    protected static final String URL_SERVER = "http://192.168.1.125:8080/dao/company";
+//    protected static final String URL_SERVER = "http://localhost:8082/dao/company";
 
     protected final RestTemplate restTemplate;
 

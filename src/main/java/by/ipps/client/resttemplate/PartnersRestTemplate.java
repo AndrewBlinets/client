@@ -16,8 +16,8 @@ import java.util.List;
 @Slf4j
 public class PartnersRestTemplate {
 
-//    protected static final String URL_SERVER = "http://192.168.1.125:8080/dao/partners/all";
-    protected static final String URL_SERVER = "http://localhost:8082/dao/partners/all";
+    protected static final String URL_SERVER = "http://192.168.1.125:8080/dao/partners/all";
+//    protected static final String URL_SERVER = "http://localhost:8082/dao/partners/all";
 
     protected final RestTemplate restTemplate;
 

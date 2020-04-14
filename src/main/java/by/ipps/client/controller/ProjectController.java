@@ -15,6 +15,6 @@ public class ProjectController extends BaseEntityAbstractController<Project, Pro
         implements BaseEntityController<Project> {
 
     protected ProjectController(ProjectRestTemplate projectRestTemplate) {
-        super(projectRestTemplate, "/project");
+        super(projectRestTemplate, "/project/client", "dti,DESC");
     }
 }

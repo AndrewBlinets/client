@@ -15,6 +15,6 @@ public class NewsController extends BaseEntityAbstractController<News, NewsRestT
         implements BaseEntityController<News> {
 
     protected NewsController(NewsRestTemplate newsRestTemplate) {
-        super(newsRestTemplate, "/news/client");
+        super(newsRestTemplate, "/news/client", "datePublic,DESC");
     }
 }

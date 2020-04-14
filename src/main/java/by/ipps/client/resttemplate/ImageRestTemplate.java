@@ -18,8 +18,8 @@ import java.util.Objects;
 @Component
 @Slf4j
 public class ImageRestTemplate {
-//    protected static final String URL_SERVER = "http://192.168.1.125:8080/dao/file";
-    protected static final String URL_SERVER = "http://localhost:8082/dao/file";
+    protected static final String URL_SERVER = "http://192.168.1.125:8080/dao/file";
+//    protected static final String URL_SERVER = "http://localhost:8082/dao/file";
 
     protected final RestTemplate restTemplate;
 
@@ -35,7 +35,7 @@ public class ImageRestTemplate {
             response.setContentType(Objects.requireNonNull(result.getBody()).getFileMine());
             response.setHeader("Content-Disposition", "attachment; filename=" + result.getBody().getFileName());
             byte[] array = Files.readAllBytes(
-                    Paths.get(result.getBody().getPath() + File.separator + result.getBody().getFileName()));
+                    Paths.get(result.getBody().getPath()));
             response.getOutputStream().write(array);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (org.springframework.web.client.HttpClientErrorException exception) {
@@ -44,6 +44,7 @@ public class ImageRestTemplate {
             log.error(exception.getStatusCode() + " " + exception.getStatusText());
             return new ResponseEntity<>(HttpStatus.valueOf(exception.getStatusCode().value()));
         } catch (Exception e) {
+            e.printStackTrace();
             log.info("getImageByID");
             log.info(URL_SERVER);
             log.error(e.getMessage());
@@ -58,9 +59,9 @@ public class ImageRestTemplate {
                     FileManager.class);
             response.setContentType(Objects.requireNonNull(result.getBody()).getFileMine());
             response.setHeader("Content-Disposition", "attachment; filename=" + result.getBody().getFileName());
-            String nameFile = result.getBody().getFileName().split("\\.")[0] + "-resize." + result.getBody().getFileName().split("\\.")[1];
+            String nameFile = result.getBody().getPath().split("\\.")[0] + "-resize." + result.getBody().getPath().split("\\.")[1];
             byte[] array = Files.readAllBytes(
-                    Paths.get(result.getBody().getPath() + File.separator + nameFile));
+                    Paths.get(nameFile));
             response.getOutputStream().write(array);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (org.springframework.web.client.HttpClientErrorException exception) {
