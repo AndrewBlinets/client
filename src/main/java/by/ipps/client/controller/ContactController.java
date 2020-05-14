@@ -1,8 +1,11 @@
 package by.ipps.client.controller;
 
+import by.ipps.client.entity.Contact;
 import by.ipps.client.resttemplate.ContactRestTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -17,7 +20,7 @@ public class ContactController {
 
     @GetMapping
     @ResponseBody
-    public ResponseEntity<Object> getAllContact(){
+    public ResponseEntity<List<Contact>> getAllContact(){
         return contactRestTemplate.getActualInfo();
     }
 
